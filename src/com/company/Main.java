@@ -5,30 +5,19 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
+        int count = 1;
         System.out.println("Guess My Number");
         Scanner in = new Scanner(System.in);
         String repeat = "y";
 
-        while (repeat == "y") {
-            System.out.println(repeat);
-            repeat = playGame(in, repeat);
-            System.out.println(repeat);
-            if (repeat == "n") {
-                repeat = "n";
-            } else if (repeat == "y") {
-                repeat = "y";
-            }
+        while (repeat.equals("y")) {
+            repeat = playGame(in, repeat, count);
         }
-
         System.out.println("Thanks for playing!");
-
-        // debug System.out.println(userGuess);
-        // debug System.out.println(num);
-
-
-
     }
-    private static String playGame(Scanner in, String repeat) {
+
+
+    private static String playGame(Scanner in, String repeat, int count) {
         int max = getMax(in);
         int num = getNumber(max);
         int userGuess = getGuess(in);
@@ -37,12 +26,11 @@ public class Main {
 
             System.out.println(out);
             userGuess = getGuess(in);
+            count++;
             out = testInput(num, userGuess);
         }
         System.out.println(out);
-        repeat = getRepeat(in);
-
-        System.out.println(repeat);
+        repeat = getRepeat(in, count);
         return repeat;
     }
 
@@ -54,27 +42,23 @@ public class Main {
 
 
     public static String testInput(int num, int userGuess) {
-        String out;
+        String out = "";
         if (userGuess == num) {
             out = "Correct!";
-            return out;
 
         } else if (userGuess > num) {
             out = "Too high";
-            return out;
 
         } else if (userGuess < num) {
             out = "Too low";
-            return out;
         }
-        return null;
+        return out;
     }
 
 
     public static int getGuess(Scanner in) {
 
-        int userGuess = in.nextInt();
-        return userGuess;
+        return in.nextInt();
     }
 
 
@@ -86,10 +70,10 @@ public class Main {
     }
 
 
-    public static String getRepeat(Scanner in) {
+    public static String getRepeat(Scanner in, int count) {
         System.out.println("Congrats on the correct answer!");
+        System.out.println("It took you " + count + " guesses.");
         System.out.println("Would you like to play again? (y/n)");
-        String repeat = in.next();
-        return repeat;
+        return in.next();
     }
 }
